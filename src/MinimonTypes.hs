@@ -1,12 +1,17 @@
-module MinimonTypes where
+module MinimonTypes (
+  MiniType(..),
+  Effectivness,
+  effectivness,
+  effCoeff
+) where
 
-data MiniTypes = Fire | Ice | Steel | Plant deriving (Show, Eq)
+data MiniType = Fire | Ice | Steel | Plant | Normal deriving (Show, Eq)
 
-data Effectivness = Effective | Normal | Ineffective | Noeffect
+data Effectivness = Effective | NoEffect | Ineffective | Immune
   deriving (Show, Eq)
 
 
-effectivness :: MiniTypes -> MiniTypes -> Effectivness
+effectivness :: MiniType -> MiniType -> Effectivness
 
 effectivness Fire Plant = Effective
 effectivness Fire Steel = Effective
@@ -22,4 +27,11 @@ effectivness Ice Steel = Ineffective
 effectivness Steel Fire = Ineffective
 effectivness Steel Ice = Effective
 
-effectivness x y = if x == y then Ineffective else Normal
+effectivness x y = if x == y then Ineffective else NoEffect
+
+effCoeff :: MiniType -> MiniType -> Integer
+effCoeff x y = case effectivness x y of
+  Effective -> 4
+  NoEffect -> 2
+  Ineffective -> 1
+  Immune -> 0

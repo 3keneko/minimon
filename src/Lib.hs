@@ -1,6 +1,25 @@
+{-# LANGUAGE OverloadedLists #-}
 module Lib
     ( someFunc
     ) where
+import MinimonTypes (MiniType(..))
+
+import Minimon (Minimon(..), Attack(..), roundz)
+
+mainHelp :: Minimon -> Minimon -> IO ()
+mainHelp m1 m2 = do
+  putStrLn $ "You are" ++ show m1
+  putStrLn "Please select an attack (1-4)"
+  input <- getLine
+  let num = read input :: Int
+      next = roundz num m1 m2
+    in case next of
+        Left msg ->
+          if msg == "No more attacks" then do
+              putStrLn $ "Vous ne pouvez plus utiliser cette attaque"
+              mainHelp m1 m2
+            else putStrLn $ "Victoire de " ++ show m1
+        Right (a1, a2) -> mainHelp a2 a1
 
 someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+someFunc = mainHelp (Minimon {hp = 200, minitype = Fire, attacks=[Attack {damage=30, number=10, the_type=Normal}] }) (Minimon {hp = 200, minitype = Plant, attacks=[Attack {damage=30, number=10, the_type=Normal}] })
