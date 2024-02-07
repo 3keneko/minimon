@@ -17,14 +17,14 @@ image1Y = 0
 image2X = 100
 image2Y = 0
 
-loadPNG :: FilePath -> IO
+loadPNG :: FilePath -> IO Picture
 loadPNG path = do
   image <- readImage path
   case image of
     Left err -> error $ "Error loading image: " ++ err
     Right dynamicImage -> return $ case dynamicImage of
       ImageRGBA8 img -> bitmapOfForeignPtr (imageWidth img) (imageHeight img)
-                                           (BitmapFormat topToBottom RGBA8) (imageData img) True
+                                           (BitmapFormat TopToBottom PxRGBA) (imageData img) True
     _ -> error "Unsupported image format"
 
 loadImages :: IO (Picture, Picture)
@@ -36,7 +36,5 @@ loadImages = do
 main :: IO ()
 main = do
   (image1, image2) <- loadImages
-
   let window = InWindow "MINIMON" (windowWidth, windowHeight) (20, 20)
-      background = white
-   display window background (pictures [translate image1X image1Y image1, translate image2X image2Y image2])
+  display window white (pictures [translate image1X image1Y image1, translate image2X image2Y image2])
