@@ -1,10 +1,10 @@
-{-# LANGUAGE OverloadedLists #-}
 module Lib
     ( someFunc
     ) where
-import MinimonTypes (MiniType(..))
 
+import MinimonTypes (MiniType(..))
 import Minimon (Minimon(..), Attack(..), roundz)
+import Creatures (createGenericCreature)
 
 mainHelp :: Minimon -> Minimon -> IO ()
 mainHelp m1 m2 = do
@@ -21,5 +21,7 @@ mainHelp m1 m2 = do
             else putStrLn $ "Victoire de " ++ show m1
         Right (a1, a2) -> mainHelp a2 a1
 
+
 someFunc :: IO ()
-someFunc = mainHelp (Minimon {hp = 200, minitype = Fire, attacks=[Attack {damage=30, number=10, the_type=Normal}] }) (Minimon {hp = 200, minitype = Plant, attacks=[Attack {damage=30, number=10, the_type=Normal}] })
+someFunc = do
+  mainHelp (createGenericCreature Fire "Dracof") (createGenericCreature Plant "Bulbiz")

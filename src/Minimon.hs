@@ -1,3 +1,5 @@
+{-# LANGUAGE RecordWildCards #-}
+
 module Minimon
   (Attack(..),
   Minimon(..),
@@ -8,7 +10,7 @@ module Minimon
   pickAttack,
   roundz
   ) where
-import MinimonTypes (MiniType, effCoeff)
+import MinimonTypes (MiniType(..), effCoeff)
 import Data.Vector ((!), Vector)
 
 data Attack = Attack {
@@ -20,7 +22,8 @@ data Attack = Attack {
 data Minimon = Minimon {
   hp :: !Integer,
   minitype :: !MiniType,
-  attacks :: Vector Attack
+  attacks :: Vector Attack,
+  name :: !String
 } deriving (Eq, Show)
 
 
@@ -30,24 +33,26 @@ makeDmg hpi val min_type att_type =
   hpi - val * effCoeff att_type min_type
 
 strike :: Attack -> Minimon -> Minimon
-strike (Attack dam _ typ)  (Minimon h mintyp att) =
-  Minimon (makeDmg h dam mintyp typ) mintyp att
+strike (Attack dam _ typ)  (Minimon h mintyp att n) =
+  Minimon (makeDmg h dam mintyp typ) mintyp att n
 -- attackedBy :: Minimon -> Minimon -> Int -> Minimon
 
 -- uncurredFlippedStrike :: (Minimon, Attack) -> Maybe (Minimon, Attack)
 -- uncurredFlippedStrike = (uncurry . flip) strike
 
 use :: Attack -> Attack
-use (Attack { damage=d, number=n, the_type=t }) = Attack { damage = d, number=n-1, the_type=t }
+use (Attack { .. }) = Attack { number=number-1, .. }
+
 
 anyTooUsed :: Foldable t => t Attack -> Bool
 anyTooUsed = any (\x -> number x < 0)
 
+
 pickAttack :: Int -> Minimon -> Maybe (Attack, Minimon)
-pickAttack i (Minimon { hp = h, attacks = l, minitype=t }) =
-  let att = l ! i
-      newAtt = fmap (\x -> if x == att then use x else x) l
-  in if anyTooUsed newAtt then Nothing else Just (att, Minimon {hp=h, attacks=newAtt, minitype=t} )
+pickAttack i (Minimon { .. }) =
+  let att = attacks ! i
+      newAtt = fmap (\x -> if x == att then use x else x) attacks
+  in if anyTooUsed newAtt then Nothing else Just (att, Minimon {attacks=newAtt, ..} )
 
 
 stillAlive :: (Minimon, Minimon) -> Either String (Minimon, Minimon)

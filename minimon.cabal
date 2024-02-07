@@ -7,8 +7,8 @@ cabal-version: 2.2
 name:           minimon
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/minimon#readme>
-homepage:       https://github.com/githubuser/minimon#readme
-bug-reports:    https://github.com/githubuser/minimon/issues
+homepage:       https://github.com/3keneko/minimon#readme
+bug-reports:    https://github.com/3keneko/minimon/issues
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2024 Author name here
@@ -21,20 +21,26 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/minimon
+  location: https://github.com/3keneko/minimon
 
 library
   exposed-modules:
+      Creatures
       Lib
+      Minimon
+      MinimonTypes
   other-modules:
       Paths_minimon
   autogen-modules:
       Paths_minimon
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded
   build-depends:
-      base >=4.7 && <5
+      JuicyPixels
+    , base >=4.7 && <5
+    , gloss
+    , vector
   default-language: Haskell2010
 
 executable minimon-exe
@@ -45,10 +51,13 @@ executable minimon-exe
       Paths_minimon
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      JuicyPixels
+    , base >=4.7 && <5
+    , gloss
     , minimon
+    , vector
   default-language: Haskell2010
 
 test-suite minimon-test
@@ -60,8 +69,11 @@ test-suite minimon-test
       Paths_minimon
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      JuicyPixels
+    , base >=4.7 && <5
+    , gloss
     , minimon
+    , vector
   default-language: Haskell2010
