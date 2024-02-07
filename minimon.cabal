@@ -40,6 +40,7 @@ library
       JuicyPixels
     , base >=4.7 && <5
     , gloss
+    , gloss-juicy
     , vector
   default-language: Haskell2010
 
@@ -56,6 +57,7 @@ executable minimon-exe
       JuicyPixels
     , base >=4.7 && <5
     , gloss
+    , gloss-juicy
     , minimon
     , vector
   default-language: Haskell2010
@@ -74,6 +76,7 @@ test-suite minimon-test
       JuicyPixels
     , base >=4.7 && <5
     , gloss
+    , gloss-juicy
     , minimon
     , vector
   default-language: Haskell2010

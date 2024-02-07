@@ -67,3 +67,4 @@ packages:
 # compiler-check: newer-minor
 extra-deps:
     - gloss-1.13.2.2
+    - gloss-juicy-0.2.3

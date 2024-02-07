@@ -1,11 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
-import Lib
+-- import Lib
 
 import Graphics.Gloss
-import Control.Monad (unless)
-import Codec.Picture
+import Graphics.Gloss.Juicy (loadJuicyPNG)
+-- import Control.Monad (unless)
+-- import Codec.Picture
 
 windowWidth, windowHeight :: Int
 windowWidth = 800
@@ -19,17 +20,14 @@ image2Y = 0
 
 loadPNG :: FilePath -> IO Picture
 loadPNG path = do
-  image <- readImage path
-  case image of
-    Left err -> error $ "Error loading image: " ++ err
-    Right dynamicImage -> return $ case dynamicImage of
-      ImageRGBA8 img -> bitmapOfForeignPtr (imageWidth img) (imageHeight img)
-                                           (BitmapFormat TopToBottom PxRGBA) (imageData img) True
-    _ -> error "Unsupported image format"
+  mayImg <- loadJuicyPNG path
+  case mayImg of
+    Just s -> return s
+    _ -> error "Error opening the file"
 
 loadImages :: IO (Picture, Picture)
 loadImages = do
-  image1 <- loadPNG "imgs/firekatcthu.png"
+  image1 <- loadPNG "imgs/firekatchu.png"
   image2 <- loadPNG "imgs/plantkatchu.png"
   pure (image1, image2)
 

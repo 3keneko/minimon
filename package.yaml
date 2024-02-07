@@ -24,6 +24,7 @@ dependencies:
 - vector
 - JuicyPixels
 - gloss
+- gloss-juicy
 
 ghc-options:
 - -Wall
