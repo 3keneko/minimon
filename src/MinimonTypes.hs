@@ -29,7 +29,7 @@ effectivness Steel Ice = Effective
 
 effectivness x y = if x == y then Ineffective else NoEffect
 
-effCoeff :: MiniType -> MiniType -> Integer
+effCoeff :: MiniType -> MiniType -> Int
 effCoeff x y = case effectivness x y of
   Effective -> 4
   NoEffect -> 2

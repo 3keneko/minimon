@@ -10,18 +10,19 @@ module Minimon
   pickAttack,
   roundz
   ) where
+
 import MinimonTypes (MiniType(..), effCoeff)
 import Data.Vector ((!), Vector)
 
 data Attack = Attack {
-  damage :: !Integer,
-  number :: !Integer,
+  damage :: !Int,
+  number :: !Int,
   the_type :: !MiniType,
   attackName :: !String
 } deriving (Eq, Show)
 
 data Minimon = Minimon {
-  hp :: !Integer,
+  hp :: !Int,
   minitype :: !MiniType,
   attacks :: Vector Attack,
   name :: !String
@@ -29,7 +30,7 @@ data Minimon = Minimon {
 
 
 
-makeDmg :: Integer -> Integer -> MiniType -> MiniType -> Integer
+makeDmg :: Int -> Int -> MiniType -> MiniType -> Int
 makeDmg hpi val min_type att_type =
   hpi - val * effCoeff att_type min_type
 
@@ -56,13 +57,13 @@ pickAttack i (Minimon { .. }) =
   in if anyTooUsed newAtt then Nothing else Just (att, Minimon {attacks=newAtt, ..} )
 
 
-stillAlive :: (Minimon, Minimon) -> Either String (Minimon, Minimon)
-stillAlive t@(_, m2) = if hp m2 > 0 then Right t else Left "Pokemon died"
+stillAlive :: (Minimon, Minimon, Attack) -> Either String (Minimon, Minimon, Attack)
+stillAlive t@(_, m2, _) = if hp m2 > 0 then Right t else Left "Pokemon died"
 
 
-roundz :: Int -> Minimon -> Minimon -> Either String (Minimon, Minimon)
+roundz :: Int -> Minimon -> Minimon -> Either String (Minimon, Minimon, Attack)
 roundz i m1 m2 = case pickAttack i m1 of
-  Just (att, m) -> stillAlive (m, strike att m2)
+  Just (att, m) -> stillAlive (m, strike att m2, att)
   Nothing -> Left "No more attacks"
 
 

@@ -28,6 +28,7 @@ library
       Creatures
       Display
       Lib
+      MiniMatch
       Minimon
       MinimonTypes
   other-modules:
@@ -42,6 +43,7 @@ library
     , base >=4.7 && <5
     , gloss
     , gloss-juicy
+    , random
     , vector
   default-language: Haskell2010
 
@@ -60,6 +62,7 @@ executable minimon-exe
     , gloss
     , gloss-juicy
     , minimon
+    , random
     , vector
   default-language: Haskell2010
 
@@ -79,5 +82,6 @@ test-suite minimon-test
     , gloss
     , gloss-juicy
     , minimon
+    , random
     , vector
   default-language: Haskell2010

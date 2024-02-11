@@ -19,7 +19,7 @@ mainHelp m1 m2 = do
               putStrLn "Vous ne pouvez plus utiliser cette attaque"
               mainHelp m1 m2
             else putStrLn $ "Victoire de " ++ show m1
-        Right (a1, a2) -> mainHelp a2 a1
+        Right (a1, a2, _) -> mainHelp a2 a1
 
 
 someFunc :: IO ()

@@ -32,7 +32,7 @@ loadJPG :: FilePath -> IO Picture
 loadJPG = loadAnImg loadJuicyJPG
 
 loadForest :: IO Picture
-loadForest = fmap (scale 1.5 1.5) $ loadJPG "imgs/foret.jpg"
+loadForest = scale 1.5 1.5 <$> loadJPG "imgs/foret.jpg"
 
 loadPokes :: IO (Picture, Picture)
 loadPokes = do
@@ -49,6 +49,8 @@ imagesToDisplay = do
   return $ pictures [scaleAndTrans 0.2 0.1 image1X image1Y image1,
                      scaleAndTrans 0.2 0.1 image2X image2Y image2]
 
+steps :: Int
+steps = 1
 
 main :: IO ()
 main = do
@@ -59,3 +61,4 @@ main = do
                                   displayRectangle 170 200 200 30 green,
                                   displayText (-200) (-250) 0.15 0.15 "Drakof",
                                   displayText 150 230 0.15 0.15 "Bulbiz"])
+  -- simulate window white pokematch displayPokeMatch
