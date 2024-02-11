@@ -3,7 +3,7 @@ module Lib
     ) where
 
 import MinimonTypes (MiniType(..))
-import Minimon (Minimon(..), Attack(..), roundz)
+import Minimon (Minimon(..), roundz)
 import Creatures (createGenericCreature)
 
 mainHelp :: Minimon -> Minimon -> IO ()
@@ -16,7 +16,7 @@ mainHelp m1 m2 = do
     in case next of
         Left msg ->
           if msg == "No more attacks" then do
-              putStrLn $ "Vous ne pouvez plus utiliser cette attaque"
+              putStrLn "Vous ne pouvez plus utiliser cette attaque"
               mainHelp m1 m2
             else putStrLn $ "Victoire de " ++ show m1
         Right (a1, a2) -> mainHelp a2 a1

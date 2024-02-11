@@ -16,7 +16,8 @@ import Data.Vector ((!), Vector)
 data Attack = Attack {
   damage :: !Integer,
   number :: !Integer,
-  the_type :: !MiniType
+  the_type :: !MiniType,
+  attackName :: !String
 } deriving (Eq, Show)
 
 data Minimon = Minimon {
@@ -33,7 +34,7 @@ makeDmg hpi val min_type att_type =
   hpi - val * effCoeff att_type min_type
 
 strike :: Attack -> Minimon -> Minimon
-strike (Attack dam _ typ)  (Minimon h mintyp att n) =
+strike (Attack dam _ typ _)  (Minimon h mintyp att n) =
   Minimon (makeDmg h dam mintyp typ) mintyp att n
 -- attackedBy :: Minimon -> Minimon -> Int -> Minimon
 

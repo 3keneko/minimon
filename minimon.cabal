@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Creatures
+      Display
       Lib
       Minimon
       MinimonTypes
