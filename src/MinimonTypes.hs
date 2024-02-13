@@ -13,7 +13,7 @@ data Effectivness = Effective | NoEffect | Ineffective | Immune
 instance Show Effectivness where
   show Effective = "C'est super efficace!"
   show NoEffect  = ""
-  show Ineffective = "Ce n'est pas très efficace"
+  show Ineffective = "Ce n'est pas super efficace"
   show Immune = "Cela n'a aucun effet..."
 
 effectivness :: MiniType -> MiniType -> Effectivness

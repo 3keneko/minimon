@@ -72,5 +72,5 @@ main =
   --                                 displayText 150 230 0.15 0.15 "Bulbiz",
   --                                 displayRectangle 200 (-100) 400 200 white,
   --                                 displayText 30 (-30) 0.15 0.15 "This was not very effective"])
-    simulate window white 1 (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
+    simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
       (showModel [bg, itd]) updateModel
