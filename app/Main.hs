@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
-import Display (displayRectangle, displayText)
+import Display (displayRectangle, displayText, scaleAndTrans)
 
 import Graphics.Gloss
 import Graphics.Gloss.Juicy (loadJuicyPNG, loadJuicyJPG, loadJuicy)
@@ -40,9 +40,6 @@ loadPokes = do
   image2 <- loadPNG "imgs/plantkatchu.png"
   pure (image1, image2)
 
-scaleAndTrans :: Float -> Float -> Float -> Float -> Picture -> Picture
-scaleAndTrans x y z w = scale x y . translate z w
-
 imagesToDisplay :: IO Picture
 imagesToDisplay = do
   (image1, image2) <- loadPokes
@@ -60,5 +57,7 @@ main = do
   display window white (pictures [forest, itd, displayRectangle (-170) (-200) 200 30 green,
                                   displayRectangle 170 200 200 30 green,
                                   displayText (-200) (-250) 0.15 0.15 "Drakof",
-                                  displayText 150 230 0.15 0.15 "Bulbiz"])
+                                  displayText 150 230 0.15 0.15 "Bulbiz",
+                                  displayRectangle 200 (-100) 400 200 white,
+                                  displayText 30 (-30) 0.15 0.15 "This was not very effective"])
   -- simulate window white pokematch displayPokeMatch

@@ -8,10 +8,12 @@ module Minimon
   use,
   anyTooUsed,
   pickAttack,
-  roundz
+  roundz,
+  computeDamage,
+  effOfAtt
   ) where
 
-import MinimonTypes (MiniType(..), effCoeff)
+import MinimonTypes (MiniType(..), effCoeff, effectivness, Effectivness)
 import Data.Vector ((!), Vector)
 
 data Attack = Attack {
@@ -24,19 +26,28 @@ data Attack = Attack {
 data Minimon = Minimon {
   hp :: !Int,
   minitype :: !MiniType,
-  attacks :: Vector Attack,
+  attacks :: !(Vector Attack),
   name :: !String
 } deriving (Eq, Show)
 
 
 
+computeDamage :: Attack -> Minimon -> Int
+computeDamage Attack{..}  =
+  (*  damage) .  effCoeff the_type . minitype
+
 makeDmg :: Int -> Int -> MiniType -> MiniType -> Int
 makeDmg hpi val min_type att_type =
   hpi - val * effCoeff att_type min_type
 
+-- Checks if an attack is effective agains a certain minimon
+effOfAtt :: Attack -> Minimon -> Effectivness
+effOfAtt = (.minitype)  . effectivness . the_type
+
 strike :: Attack -> Minimon -> Minimon
 strike (Attack dam _ typ _)  (Minimon h mintyp att n) =
   Minimon (makeDmg h dam mintyp typ) mintyp att n
+
 -- attackedBy :: Minimon -> Minimon -> Int -> Minimon
 
 -- uncurredFlippedStrike :: (Minimon, Attack) -> Maybe (Minimon, Attack)

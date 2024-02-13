@@ -2,58 +2,43 @@
 
 module MiniMatch where
 
-import System.Random (mkStdGen, uniformR)
-import Minimon
-import Graphics.Gloss (display, Picture, pictures)
-import Graphics.Gloss.Data.ViewPort (ViewPort)
-import Display (displayMinimon, WhichMinimon(..))
+import System.Random (StdGen)
+import Minimon ( Minimon(..), Attack(..) )
+import Data.Maybe (fromMaybe)
+-- import Control.Monad (when)
 
+-- Je sépare le match pokémon en plusieurs phases, c'est très codifié,
+-- mais ça permet d'exprimer simplement comment passer d'une étape à l'autre
 data Phase =
   Dealing
   | NoGoodDeal
   | MessageDeal1
-  | MessageDeal2
+--  | MessageDeal2
   | Win
   | Receiving
   | NoGoodRec
   | MessageReceive1
-  | MessageReceive2
-  | Lose deriving (Eq)
+  -- | MessageReceive2
+  | Lose deriving Eq
+
+data Turn = Their | Ours deriving Eq
 
 data MiniMatch = MiniMatch {
   ourPoke :: !Minimon,
   themPoke :: !Minimon,
   phase :: !Phase,
-  currAtt :: Maybe Attack,
-  endPhase :: Bool
-} deriving (Eq)
+  currAtt :: !(Maybe Attack),
+  endPhase :: !Bool,
+  randomSeed :: !StdGen
+} deriving Eq
 
 
-mapToRange :: Float -> Int
-mapToRange = (+ 1) . round . (* 32000)
+turn :: Turn -> (MiniMatch->Minimon,
+                 MiniMatch->Minimon,
+                 Phase, Phase)
+turn Their = (themPoke, ourPoke, Lose, NoGoodRec)
+turn Ours  = (ourPoke, themPoke, Win, NoGoodDeal)
 
-showModel :: [Picture] -> MiniMatch -> Picture
-showModel pictures mm@(MiniMatch{ .. }) = case phase of
-  Dealing -> showDeal pictures mm
+getAttack :: MiniMatch -> Attack
+getAttack = fromMaybe (error "No attack pending!") . currAtt
 
-
-updateModel :: ViewPort -> Float -> MiniMatch -> MiniMatch
-updateModel _ flt mm@(MiniMatch { .. }) =
-  case phase of
-    Dealing ->
-      let gen = mkStdGen $ mapToRange flt
-          (choice,_) = uniformR (0::Int, 2::Int) gen
-      in updateDeal choice mm
-
-
-updateDeal :: Int -> MiniMatch -> MiniMatch
-updateDeal i (MiniMatch { .. }) =
-  case roundz i ourPoke themPoke of
-    Left "No more attacks" -> MiniMatch { phase=NoGoodDeal, .. }
-    Left "Pokemon died" -> MiniMatch {endPhase=True, phase=MessageDeal1, ..}
-    Right (_, m2, att) -> MiniMatch {currAtt = Just att, themPoke=m2, ..}
-
-showDeal :: [Picture] -> MiniMatch -> Picture
-showDeal pics (MiniMatch {..})  =
-  pictures $ pics ++ displayMinimon ourPoke Lower
-  ++ displayMinimon themPoke Upper

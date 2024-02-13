@@ -1,14 +1,18 @@
 {-# LANGUAGE RecordWildCards #-}
-module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..)) where
+module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..), displayDialogue) where
 
 import Graphics.Gloss
-    ( Picture, Color, translate, color, rectangleSolid, text, scale, pictures, yellow, green, red )
+    ( Picture, Color, translate, color, rectangleSolid, text, scale, pictures, yellow, green, red, white )
 
 import MinimonTypes (MiniType(..))
 import Minimon ( Minimon(..) )
 
 data WhichMinimon = Upper | Lower deriving Eq
 type Attacked = Bool
+
+scaleAndTrans :: Float -> Float -> Float -> Float -> Picture -> Picture
+scaleAndTrans x y z w = scale x y . translate z w
+
 
 displayRectangle :: Float -> Float -> Float -> Float -> Color -> Picture
 displayRectangle x y l w c = translate x y $ color c $ rectangleSolid l w
@@ -27,16 +31,21 @@ displayText :: Float -> Float -> Float -> Float -> String -> Picture
 displayText x y l w = translate x y . scale l w . text
 
 
-minimonImg :: Minimon -> FilePath
-minimonImg (Minimon{minitype=Fire}) = "imgs/firekatchu.png"
-minimonImg (Minimon{minitype=Plant}) = "imgs/plantkatchu.png"
+minimonImg :: MiniType -> FilePath
+minimonImg Fire = "imgs/firekatchu.png"
+minimonImg Plant = "imgs/plantkatchu.png"
 minimonImg _ = ""
 
 
 displayMinimon :: Minimon -> WhichMinimon -> [Picture]
 displayMinimon (Minimon {..}) Upper
   = [ displayHealth 170 200 hp,
-      displayText 150 230 0.15 0.15 name]
+      displayText 150 230 0.15 0.15 name,
+      scaleAndTrans 0.2 0.1 1000 1000 (minimonImg minitype)]
 displayMinimon (Minimon{..}) Lower
   = [ displayHealth (-170) (-200) hp,
       displayText (-200) (-250) 0.15 0.15 name ]
+
+displayDialogue :: String -> [Picture]
+displayDialogue dial = [ displayRectangle 200 (-100) 400 200 white,
+           displayText 30 (-30) 0.15 0.15 dial]

@@ -8,8 +8,13 @@ module MinimonTypes (
 data MiniType = Fire | Ice | Steel | Plant | Normal deriving (Eq, Show)
 
 data Effectivness = Effective | NoEffect | Ineffective | Immune
-  deriving (Show, Eq)
+  deriving Eq
 
+instance Show Effectivness where
+  show Effective = "C'est super efficace!"
+  show NoEffect  = ""
+  show Ineffective = "Ce n'est pas très efficace"
+  show Immune = "Cela n'a aucun effet..."
 
 effectivness :: MiniType -> MiniType -> Effectivness
 

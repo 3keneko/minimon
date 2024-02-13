@@ -29,6 +29,8 @@ library
       Display
       Lib
       MiniMatch
+      MiniMatchShow
+      MiniMatchUpdate
       Minimon
       MinimonTypes
   other-modules:
