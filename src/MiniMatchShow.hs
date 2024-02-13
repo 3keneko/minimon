@@ -23,7 +23,7 @@ showModel pics mm@(MiniMatch{ .. }) = case phase of
 -- Takes care of the Dealing/Receving phases
 showGeneral :: (MiniMatch -> Minimon) -> [Picture] -> MiniMatch -> Picture
 showGeneral f pics m = pictures $ pics ++ dispMons m ++ displayDialogue dialogue
-  where dialogue = name (f m) ++ " utilise " ++ attackName (getAttack m)
+  where dialogue = name (f m) ++ " se prépare à attaquer " -- ++ attackName (getAttack m)
 
 showDeal :: [Picture] -> MiniMatch -> Picture
 showDeal = showGeneral ourPoke
