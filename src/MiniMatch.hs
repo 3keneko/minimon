@@ -1,6 +1,6 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module MiniMatch where
+module MiniMatch (MiniMatch(..), Phase(..), Turn(..), turn, getAttack) where
 
 import System.Random (StdGen)
 import Minimon ( Minimon(..), Attack(..) )

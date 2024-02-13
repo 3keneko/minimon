@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..), displayDialogue) where
+module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..), displayDialogue, scaleAndTrans) where
 
 import Graphics.Gloss
     ( Picture, Color, translate, color, rectangleSolid, text, scale, pictures, yellow, green, red, white )
@@ -8,7 +8,7 @@ import MinimonTypes (MiniType(..))
 import Minimon ( Minimon(..) )
 
 data WhichMinimon = Upper | Lower deriving Eq
-type Attacked = Bool
+-- type Attacked = Bool
 
 scaleAndTrans :: Float -> Float -> Float -> Float -> Picture -> Picture
 scaleAndTrans x y z w = scale x y . translate z w
@@ -40,8 +40,7 @@ minimonImg _ = ""
 displayMinimon :: Minimon -> WhichMinimon -> [Picture]
 displayMinimon (Minimon {..}) Upper
   = [ displayHealth 170 200 hp,
-      displayText 150 230 0.15 0.15 name,
-      scaleAndTrans 0.2 0.1 1000 1000 (minimonImg minitype)]
+      displayText 150 230 0.15 0.15 name ]
 displayMinimon (Minimon{..}) Lower
   = [ displayHealth (-170) (-200) hp,
       displayText (-200) (-250) 0.15 0.15 name ]

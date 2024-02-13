@@ -1,10 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
-import Display (displayRectangle, displayText, scaleAndTrans)
+import Display (scaleAndTrans)
 
 import Graphics.Gloss
-import Graphics.Gloss.Juicy (loadJuicyPNG, loadJuicyJPG, loadJuicy)
+import Graphics.Gloss.Juicy (loadJuicyPNG, loadJuicyJPG)
+import MiniMatch (MiniMatch(..), Phase(..))
+import Creatures (createGenericCreature)
+import System.Random (mkStdGen,  randomIO)
+import MinimonTypes (MiniType(..))
+import MiniMatchShow (showModel)
+import MiniMatchUpdate (updateModel)
+
 -- import Control.Monad (unless)
 -- import Codec.Picture
 
@@ -50,14 +57,20 @@ steps :: Int
 steps = 1
 
 main :: IO ()
-main = do
+main =
   let window = InWindow "MINIMON" (windowWidth, windowHeight) (20, 20)
-  itd <- imagesToDisplay
-  forest <- loadForest
-  display window white (pictures [forest, itd, displayRectangle (-170) (-200) 200 30 green,
-                                  displayRectangle 170 200 200 30 green,
-                                  displayText (-200) (-250) 0.15 0.15 "Drakof",
-                                  displayText 150 230 0.15 0.15 "Bulbiz",
-                                  displayRectangle 200 (-100) 400 200 white,
-                                  displayText 30 (-30) 0.15 0.15 "This was not very effective"])
-  -- simulate window white pokematch displayPokeMatch
+      poko1 = createGenericCreature Fire "Drakof"
+      poko2 = createGenericCreature Plant "Bulbiz"
+    in do
+    seed <- randomIO :: IO Int
+    itd <- imagesToDisplay
+    bg <- loadForest
+
+  -- display window white (pictures [forest, itd, displayRectangle (-170) (-200) 200 30 green,
+  --                                 displayRectangle 170 200 200 30 green,
+  --                                 displayText (-200) (-250) 0.15 0.15 "Drakof",
+  --                                 displayText 150 230 0.15 0.15 "Bulbiz",
+  --                                 displayRectangle 200 (-100) 400 200 white,
+  --                                 displayText 30 (-30) 0.15 0.15 "This was not very effective"])
+    simulate window white 1 (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
+      (showModel [bg, itd]) updateModel

@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-module MiniMatchShow where
+module MiniMatchShow (showModel) where
 
 import Minimon
 import Graphics.Gloss (display, Picture, pictures)
@@ -17,6 +17,8 @@ showModel pics mm@(MiniMatch{ .. }) = case phase of
   Receiving -> showRec pics mm
   MessageDeal1 -> showMess1 pics mm
   MessageReceive1 -> showRec1 pics mm
+  Win -> showWon pics mm
+  Lose -> showLost pics mm
   _ -> showBad pics mm
 -- Takes care of the Dealing/Receving phases
 showGeneral :: (MiniMatch -> Minimon) -> [Picture] -> MiniMatch -> Picture
@@ -57,4 +59,5 @@ showLost bg (MiniMatch{..}) = pictures $ bg ++ displayMinimon themPoke Upper
 
 
 showBad :: [Picture] -> MiniMatch -> Picture
-showBad bg m = pictures $ showMess1 bg m : displayDialogue "Le pokémon ne peut plus utiliser cette attaque"
+showBad bg m = pictures $
+  showMess1 bg m : displayDialogue "Le pokémon ne peut plus utiliser cette attaque"

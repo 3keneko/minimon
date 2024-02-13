@@ -39,7 +39,7 @@ updatePlay t i newGen mm@(MiniMatch { .. }) =
     Right (_, m2, att) -> finalM t m2 att
     _ -> error "Unexpected return from roundz function"
     where (f, g, specialPhase, stuckPhase) = turn t
-          finalM s m att = if s == Ours then MiniMatch { phase=MessageDeal1, currAtt=Just att, themPoke=m2, randomSeed=newGen, .. } else
+          finalM s m att = if s == Ours then MiniMatch { phase=MessageDeal1, currAtt=Just att, themPoke=m, randomSeed=newGen, .. } else
             MiniMatch { phase=MessageReceive1, currAtt = Just att, ourPoke=m, randomSeed=newGen, .. }
 
 updateDeal :: Int -> StdGen -> MiniMatch -> MiniMatch
