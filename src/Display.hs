@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..), displayDialogue, scaleAndTrans) where
+module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..), displayDialogue, scaleAndTrans, minimonImg) where
 
 import Graphics.Gloss
     ( Picture, Color, translate, color, rectangleSolid, text, scale, pictures, yellow, green, red, white )
@@ -34,6 +34,8 @@ displayText x y l w = translate x y . scale l w . text
 minimonImg :: MiniType -> FilePath
 minimonImg Fire = "imgs/firekatchu.png"
 minimonImg Plant = "imgs/plantkatchu.png"
+minimonImg Steel = "imgs/steelkatchu.png"
+minimonImg Ice = "imgs/icekatchu.png"
 minimonImg _ = ""
 
 

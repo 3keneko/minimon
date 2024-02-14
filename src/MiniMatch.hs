@@ -1,4 +1,4 @@
-{-# LANGUAGE RecordWildCards #-}
+-- {-# LANGUAGE RecordWildCards #-}
 
 module MiniMatch (MiniMatch(..), Phase(..), Turn(..), turn, getAttack) where
 

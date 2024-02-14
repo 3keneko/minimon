@@ -1,12 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
-import Display (scaleAndTrans)
+import Display (scaleAndTrans, minimonImg)
 
 import Graphics.Gloss
 import Graphics.Gloss.Juicy (loadJuicyPNG, loadJuicyJPG)
 import MiniMatch (MiniMatch(..), Phase(..))
 import Creatures (createGenericCreature)
+import System.Environment (getArgs)
 import System.Random (mkStdGen,  randomIO)
 import MinimonTypes (MiniType(..))
 import MiniMatchShow (showModel)
@@ -41,17 +42,32 @@ loadJPG = loadAnImg loadJuicyJPG
 loadForest :: IO Picture
 loadForest = scale 1.5 1.5 <$> loadJPG "imgs/foret.jpg"
 
-loadPokes :: IO (Picture, Picture)
-loadPokes = do
-  image1 <- loadPNG "imgs/firekatchu.png"
-  image2 <- loadPNG "imgs/plantkatchu.png"
-  pure (image1, image2)
+nameIt :: MiniType -> String
+nameIt Fire = "Drakof"
+nameIt Plant = "Bulbiz"
+nameIt Steel = "Steelix"
+nameIt Ice = "Icecone"
+nameIt Normal = "Josh"
 
-imagesToDisplay :: IO Picture
-imagesToDisplay = do
-  (image1, image2) <- loadPokes
+readIt :: String -> MiniType
+readIt "feu" = Fire
+readIt "glace" = Ice
+readIt "acier" = Steel
+readIt "plante" = Plant
+readIt _ = error "Pas un type correct"
+
+imagesToDisplay :: MiniType -> MiniType -> IO Picture
+imagesToDisplay type1 type2 = do
+  image1 <- loadPNG $ minimonImg type1
+  image2 <- loadPNG $ minimonImg type2
   return $ pictures [scaleAndTrans 0.2 0.1 image1X image1Y image1,
                      scaleAndTrans 0.2 0.1 image2X image2Y image2]
+
+car :: [a] -> a
+car = head
+
+cadr :: [a] -> a
+cadr = head . tail
 
 steps :: Int
 steps = 1
@@ -59,18 +75,22 @@ steps = 1
 main :: IO ()
 main =
   let window = InWindow "MINIMON" (windowWidth, windowHeight) (20, 20)
-      poko1 = createGenericCreature Fire "Drakof"
-      poko2 = createGenericCreature Plant "Bulbiz"
+      -- poko1 = createGenericCreature Fire "Drakof"
+      -- poko2 = createGenericCreature Plant "Bulbiz"
     in do
+    args <- fmap readIt <$> getArgs
+    itd <- imagesToDisplay (car args) (cadr args)
     seed <- randomIO :: IO Int
-    itd <- imagesToDisplay
+    -- itd <- imagesToDisplay
     bg <- loadForest
-
+    let poko1 =  createGenericCreature (car args) (nameIt (car args))
+        poko2 = createGenericCreature (cadr args) (nameIt (cadr args))
+      in do
   -- display window white (pictures [forest, itd, displayRectangle (-170) (-200) 200 30 green,
   --                                 displayRectangle 170 200 200 30 green,
   --                                 displayText (-200) (-250) 0.15 0.15 "Drakof",
   --                                 displayText 150 230 0.15 0.15 "Bulbiz",
   --                                 displayRectangle 200 (-100) 400 200 white,
   --                                 displayText 30 (-30) 0.15 0.15 "This was not very effective"])
-    simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
-      (showModel [bg, itd]) updateModel
+       simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
+        (showModel [bg, itd]) updateModel
