@@ -1,10 +1,12 @@
 -- {-# LANGUAGE RecordWildCards #-}
 
-module MiniMatch (MiniMatch(..), Phase(..), Turn(..), turn, getAttack) where
+module MiniMatch (MiniMatch(..), Phase(..), Turn(..), turn, getAttack, mkMatch) where
 
-import System.Random (StdGen)
+import System.Random (StdGen, mkStdGen)
 import Minimon ( Minimon(..), Attack(..) )
 import Data.Maybe (fromMaybe)
+import MinimonTypes (MiniType)
+import Creatures (createGenericCreature)
 -- import Control.Monad (when)
 
 -- Je sépare le match pokémon en plusieurs phases, c'est très codifié,
@@ -42,3 +44,10 @@ turn Ours  = (ourPoke, themPoke, Win, NoGoodDeal)
 getAttack :: MiniMatch -> Attack
 getAttack = fromMaybe (error "No attack pending!") . currAtt
 
+mkMatch :: MiniType -> MiniType -> Int -> MiniMatch
+mkMatch t1 t2 sd = MiniMatch {ourPoke=createGenericCreature t1,
+                             themPoke=createGenericCreature t2,
+                             phase=Dealing,
+                             currAtt=Nothing,
+                             endPhase=False,
+                             randomSeed=mkStdGen sd}

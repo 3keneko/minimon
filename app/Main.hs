@@ -75,22 +75,13 @@ steps = 1
 main :: IO ()
 main =
   let window = InWindow "MINIMON" (windowWidth, windowHeight) (20, 20)
-      -- poko1 = createGenericCreature Fire "Drakof"
-      -- poko2 = createGenericCreature Plant "Bulbiz"
     in do
     args <- fmap readIt <$> getArgs
     itd <- imagesToDisplay (car args) (cadr args)
     seed <- randomIO :: IO Int
-    -- itd <- imagesToDisplay
     bg <- loadForest
     let poko1 =  createGenericCreature (car args) (nameIt (car args))
         poko2 = createGenericCreature (cadr args) (nameIt (cadr args))
       in do
-  -- display window white (pictures [forest, itd, displayRectangle (-170) (-200) 200 30 green,
-  --                                 displayRectangle 170 200 200 30 green,
-  --                                 displayText (-200) (-250) 0.15 0.15 "Drakof",
-  --                                 displayText 150 230 0.15 0.15 "Bulbiz",
-  --                                 displayRectangle 200 (-100) 400 200 white,
-  --                                 displayText 30 (-30) 0.15 0.15 "This was not very effective"])
        simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
         (showModel [bg, itd]) updateModel

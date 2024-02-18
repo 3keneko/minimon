@@ -2,7 +2,8 @@ module MinimonTypes (
   MiniType(..),
   Effectivness,
   effectivness,
-  effCoeff
+  effCoeff,
+  types
 ) where
 
 data MiniType = Fire | Ice | Steel | Plant | Normal deriving (Eq, Show, Ord, Enum)
@@ -15,6 +16,9 @@ instance Show Effectivness where
   show NoEffect  = ""
   show Ineffective = "Ce n'est pas super efficace"
   show Immune = "Cela n'a aucun effet..."
+
+types :: [MiniType]
+types = [(Fire)..(Plant)]
 
 effectivness :: MiniType -> MiniType -> Effectivness
 
