@@ -2,7 +2,7 @@
 module Simulation where
 
 import System.Random (randomIO)
-import MiniMatch (MiniMatch (..), mkMatch)
+import MiniMatch (MiniMatch (..), Phase (..), mkMatch)
 import MinimonTypes (MiniType(..), types)
 import Data.Map.Strict (Map, fromList, adjust)
 import MiniMatchUpdate (updateNoAnimate)
@@ -10,7 +10,7 @@ import Minimon (Minimon(..))
 -- import Data.Vector (Vector)
 -- import qualified Data.Vector as V
 import Control.Monad (forM, liftM)
-
+import Control.Arrow ((&&&))
 eitherDied :: MiniMatch -> Bool
 eitherDied = endPhase
 
@@ -19,7 +19,7 @@ upEither minimatch = if endPhase minimatch then
   Left minimatch else Right minimatch
 
 getWinner :: MiniMatch -> MiniType
-getWinner mm = if hp (ourPoke mm) <= 0
+getWinner mm = if phase mm == Lose
   then minitype (themPoke mm)
   else minitype (ourPoke mm)
 
@@ -30,12 +30,19 @@ decideWinner m =
        then getWinner res
        else decideWinner res
 
+decideWinnerDebugged :: MiniMatch -> IO MiniType
+decideWinnerDebugged m = do
+  let res = updateNoAnimate m
+      in do
+    print res
+    if endPhase res then return (getWinner res) else decideWinnerDebugged res
+
 cartProdNoDup :: Eq a => [a] -> [(a,a)]
 cartProdNoDup x =
   filter (uncurry (/=)) $ (,) <$> x <*> x
 
 candidates :: [(MiniType, MiniType)]
-candidates = cartProdNoDup [(Fire)..(Plant)]
+candidates = cartProdNoDup [Fire ..Plant]
 
 getTournamentStats :: [MiniMatch] -> Map MiniType Int
 getTournamentStats matches =
@@ -48,5 +55,5 @@ mkTournamentAndGetResults = do
   -- first part: We make the tournament
   matches <- forM candidates $ \(c1, c2) ->
        (randomIO :: IO Int) >>= \i
-         ->  return $ mkMatch c1 c2 i
+         ->  (print ((ourPoke &&& themPoke) (mkMatch c1 c2 i)) >> (return $ mkMatch c1 c2 i))
   return $ getTournamentStats matches

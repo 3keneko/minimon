@@ -21,7 +21,7 @@ data Phase =
   | NoGoodRec
   | MessageReceive1
   -- | MessageReceive2
-  | Lose deriving Eq
+  | Lose deriving (Eq, Show)
 
 data Turn = Their | Ours deriving Eq
 
@@ -32,7 +32,7 @@ data MiniMatch = MiniMatch {
   currAtt :: !(Maybe Attack),
   endPhase :: !Bool,
   randomSeed :: !StdGen
-} deriving Eq
+} deriving (Eq, Show)
 
 
 turn :: Turn -> (MiniMatch->Minimon,

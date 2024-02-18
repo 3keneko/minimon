@@ -42,12 +42,6 @@ loadJPG = loadAnImg loadJuicyJPG
 loadForest :: IO Picture
 loadForest = scale 1.5 1.5 <$> loadJPG "imgs/foret.jpg"
 
-nameIt :: MiniType -> String
-nameIt Fire = "Drakof"
-nameIt Plant = "Bulbiz"
-nameIt Steel = "Steelix"
-nameIt Ice = "Icecone"
-nameIt Normal = "Josh"
 
 readIt :: String -> MiniType
 readIt "feu" = Fire
@@ -80,8 +74,8 @@ main =
     itd <- imagesToDisplay (car args) (cadr args)
     seed <- randomIO :: IO Int
     bg <- loadForest
-    let poko1 =  createGenericCreature (car args) (nameIt (car args))
-        poko2 = createGenericCreature (cadr args) (nameIt (cadr args))
+    let poko1 =  createGenericCreature (car args)
+        poko2 = createGenericCreature (cadr args)
       in do
        simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
         (showModel [bg, itd]) updateModel
