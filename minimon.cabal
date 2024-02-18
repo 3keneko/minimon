@@ -33,6 +33,7 @@ library
       MiniMatchUpdate
       Minimon
       MinimonTypes
+      Simulation
   other-modules:
       Paths_minimon
   autogen-modules:
@@ -43,6 +44,7 @@ library
   build-depends:
       JuicyPixels
     , base >=4.7 && <5
+    , containers
     , gloss
     , gloss-juicy
     , random
@@ -61,6 +63,7 @@ executable minimon-exe
   build-depends:
       JuicyPixels
     , base >=4.7 && <5
+    , containers
     , gloss
     , gloss-juicy
     , minimon
@@ -81,6 +84,7 @@ test-suite minimon-test
   build-depends:
       JuicyPixels
     , base >=4.7 && <5
+    , containers
     , gloss
     , gloss-juicy
     , minimon
