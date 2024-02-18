@@ -5,7 +5,7 @@ module MinimonTypes (
   effCoeff
 ) where
 
-data MiniType = Fire | Ice | Steel | Plant | Normal deriving (Eq, Show)
+data MiniType = Fire | Ice | Steel | Plant | Normal deriving (Eq, Show, Ord, Enum)
 
 data Effectivness = Effective | NoEffect | Ineffective | Immune
   deriving Eq

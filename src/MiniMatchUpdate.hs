@@ -8,8 +8,12 @@ import System.Random (uniformR, StdGen)
 import MiniMatch (Phase(..), Turn(..), MiniMatch(..), turn)
 import Minimon (roundz)
 
+
 updateModel :: ViewPort -> Float -> MiniMatch -> MiniMatch
-updateModel _ _ mm@(MiniMatch { .. }) =
+updateModel _ _ = updateNoAnimate
+
+updateNoAnimate :: MiniMatch -> MiniMatch
+updateNoAnimate mm@(MiniMatch { .. }) =
   case phase of
     Dealing -> updateDeal choice newGen mm
     Receiving -> updateRec choice newGen mm
