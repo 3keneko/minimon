@@ -7,10 +7,8 @@ import MinimonTypes (MiniType(..), types)
 import Data.Map.Strict (Map, fromList, adjust)
 import MiniMatchUpdate (updateNoAnimate)
 import Minimon (Minimon(..))
--- import Data.Vector (Vector)
--- import qualified Data.Vector as V
-import Control.Monad (forM, liftM)
-import Control.Arrow ((&&&))
+import Control.Monad (forM)
+
 eitherDied :: MiniMatch -> Bool
 eitherDied = endPhase
 
@@ -55,5 +53,5 @@ mkTournamentAndGetResults = do
   -- first part: We make the tournament
   matches <- forM candidates $ \(c1, c2) ->
        (randomIO :: IO Int) >>= \i
-         ->  (print ((ourPoke &&& themPoke) (mkMatch c1 c2 i)) >> (return $ mkMatch c1 c2 i))
+         ->  return $ mkMatch c1 c2 i
   return $ getTournamentStats matches
