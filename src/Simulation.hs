@@ -1,13 +1,15 @@
-{-# LANGUAGE OverloadedLists #-}
+{-# LANGUAGE OverloadedLists, TypeApplications  #-}
 module Simulation where
 
 import System.Random (randomIO)
 import MiniMatch (MiniMatch (..), Phase (..), mkMatch)
 import MinimonTypes (MiniType(..), types)
-import Data.Map.Strict (Map, fromList, adjust)
+import Data.Map.Strict (Map, fromList, adjust, unionWith, unionWithKey)
 import MiniMatchUpdate (updateNoAnimate)
 import Minimon (Minimon(..))
-import Control.Monad (forM)
+import Control.Monad (forM, foldM)
+import Data.Vector (Vector(..))
+import qualified Data.Vector as V
 
 eitherDied :: MiniMatch -> Bool
 eitherDied = endPhase
@@ -35,14 +37,14 @@ decideWinnerDebugged m = do
     print res
     if endPhase res then return (getWinner res) else decideWinnerDebugged res
 
-cartProdNoDup :: Eq a => [a] -> [(a,a)]
+cartProdNoDup :: Eq a => Vector a -> Vector (a, a)
 cartProdNoDup x =
-  filter (uncurry (/=)) $ (,) <$> x <*> x
+  V.filter (uncurry (/=)) $ (,) <$> x <*> x
 
-candidates :: [(MiniType, MiniType)]
-candidates = cartProdNoDup [Fire ..Plant]
+candidates :: Vector (MiniType, MiniType)
+candidates = cartProdNoDup [Fire ..Fairy]
 
-getTournamentStats :: [MiniMatch] -> Map MiniType Int
+getTournamentStats :: Vector MiniMatch -> Map MiniType Int
 getTournamentStats matches =
   let winners = decideWinner <$> matches
       mapzies = fromList $ zip types (repeat 0)
@@ -55,3 +57,10 @@ mkTournamentAndGetResults = do
        (randomIO :: IO Int) >>= \i
          ->  return $ mkMatch c1 c2 i
   return $ getTournamentStats matches
+
+mkLotsOfTournaments :: Int -> IO (Map MiniType Int)
+mkLotsOfTournaments x = do
+  first <- mkTournamentAndGetResults
+  foldM (\acc _ ->
+            mkTournamentAndGetResults >>= \res ->
+            pure (unionWith (+) res acc)) first (V.replicate x 0)

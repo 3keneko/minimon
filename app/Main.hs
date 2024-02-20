@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, MultiWayIf, TypeApplications #-}
 module Main (main) where
 
 import Display (scaleAndTrans, minimonImg)
@@ -12,6 +12,7 @@ import System.Random (mkStdGen,  randomIO)
 import MinimonTypes (MiniType(..))
 import MiniMatchShow (showModel)
 import MiniMatchUpdate (updateModel)
+import Simulation (mkLotsOfTournaments)
 
 -- import Control.Monad (unless)
 -- import Codec.Picture
@@ -47,7 +48,7 @@ readIt :: String -> MiniType
 readIt "feu" = Fire
 readIt "glace" = Ice
 readIt "acier" = Steel
-readIt "plante" = Plant
+readIt "plante" = Grass
 readIt _ = error "Pas un type correct"
 
 imagesToDisplay :: MiniType -> MiniType -> IO Picture
@@ -70,12 +71,16 @@ main :: IO ()
 main =
   let window = InWindow "MINIMON" (windowWidth, windowHeight) (20, 20)
     in do
-    args <- fmap readIt <$> getArgs
-    itd <- imagesToDisplay (car args) (cadr args)
-    seed <- randomIO :: IO Int
-    bg <- loadForest
-    let poko1 =  createGenericCreature (car args)
-        poko2 = createGenericCreature (cadr args)
-      in do
-       simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
-        (showModel [bg, itd]) updateModel
+    -- fmap readIt <$>
+    args <- getArgs
+    if | "n" `elem` args ->
+        mkLotsOfTournaments (read @Int (args!!1)) >>= print
+       | otherwise -> do
+         itd <- imagesToDisplay (car (readIt <$> args)) (cadr (readIt <$> args))
+         seed <- randomIO :: IO Int
+         bg <- loadForest
+         let poko1 =  createGenericCreature (car (readIt <$> args))
+             poko2 = createGenericCreature (cadr (readIt <$> args))
+           in do
+            simulate window white steps (MiniMatch { ourPoke=poko1, themPoke=poko2, phase=Dealing, currAtt=Nothing, endPhase=False, randomSeed=mkStdGen seed })
+              (showModel [bg, itd]) updateModel

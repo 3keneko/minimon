@@ -33,7 +33,7 @@ displayText x y l w = translate x y . scale l w . text
 
 minimonImg :: MiniType -> FilePath
 minimonImg Fire = "imgs/firekatchu.png"
-minimonImg Plant = "imgs/plantkatchu.png"
+minimonImg Grass = "imgs/plantkatchu.png"
 minimonImg Steel = "imgs/steelkatchu.png"
 minimonImg Ice = "imgs/icekatchu.png"
 minimonImg _ = ""

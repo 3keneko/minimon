@@ -39,6 +39,7 @@ ghc-options:
 - -Wpartial-fields
 - -Wredundant-constraints
 - -threaded
+- -O3
 
 library:
   source-dirs: src

@@ -13,7 +13,7 @@ module Minimon
   effOfAtt
   ) where
 
-import MinimonTypes (MiniType(..), effCoeff, effectivness, Effectivness)
+import MinimonTypes (MiniType(..), effCoeff, effectiveness, Effectivness)
 import Data.Vector ((!), Vector)
 
 data Attack = Attack {
@@ -42,7 +42,7 @@ makeDmg hpi val min_type att_type =
 
 -- Checks if an attack is effective agains a certain minimon
 effOfAtt :: Attack -> Minimon -> Effectivness
-effOfAtt = (.minitype)  . effectivness . the_type
+effOfAtt = (.minitype)  . effectiveness . the_type
 
 strike :: Attack -> Minimon -> Minimon
 strike (Attack dam _ typ _)  (Minimon h mintyp att n) =

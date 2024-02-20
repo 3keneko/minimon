@@ -24,4 +24,4 @@ mainHelp m1 m2 = do
 
 someFunc :: IO ()
 someFunc = do
-  mainHelp (createGenericCreature Fire) (createGenericCreature Plant)
+  mainHelp (createGenericCreature Fire) (createGenericCreature Grass)
