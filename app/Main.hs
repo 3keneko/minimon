@@ -9,11 +9,15 @@ import MiniMatch (MiniMatch(..), Phase(..))
 import Creatures (createGenericCreature)
 import System.Environment (getArgs)
 import System.Random (mkStdGen,  randomIO)
-import MinimonTypes (MiniType(..))
+import MinimonTypes (MiniType(..), types)
 import MiniMatchShow (showModel)
 import MiniMatchUpdate (updateModel)
 import Simulation (mkLotsOfTournaments)
-
+import Data.Map (toList)
+import Graphics.Rendering.Chart.Easy (bars, plot, plotBars, def)
+import HappyHour (writeBarGraphSvgFile)
+-- import Graphics.Rendering.Chart.Backend.Cairo (FileOptions(..), toFile, renderableToFile)
+-- import Graphics.Rendering.Chart.Axis.Types (fromValue)
 -- import Control.Monad (unless)
 -- import Codec.Picture
 
@@ -74,7 +78,11 @@ main =
     -- fmap readIt <$>
     args <- getArgs
     if | "n" `elem` args ->
-        mkLotsOfTournaments (read @Int (args!!1)) >>= print
+         mkLotsOfTournaments (read @Int (args!!1)) >>=
+           writeBarGraphSvgFile "tour_res.png" . fmap (\(x, y) -> (show x, y)) . toList
+        -- mkLotsOfTournaments (read @Int (args!!1)) >>=
+        -- toFile def "tour_res.png" . plot . fmap plotBars . bars (show <$> types) .
+        --  fmap (\(x, y) -> (show x , [fromValue @Double (fromIntegral y) ])) . toList
        | otherwise -> do
          itd <- imagesToDisplay (car (readIt <$> args)) (cadr (readIt <$> args))
          seed <- randomIO :: IO Int

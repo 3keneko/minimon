@@ -27,6 +27,9 @@ dependencies:
 - gloss-juicy
 - random
 - containers
+- Chart
+- Chart-cairo
+- Chart-diagrams
 
 ghc-options:
 - -Wall
@@ -39,7 +42,9 @@ ghc-options:
 - -Wpartial-fields
 - -Wredundant-constraints
 - -threaded
-- -O3
+- -O2
+- -fllvm
+- -funbox-strict-fields
 
 library:
   source-dirs: src

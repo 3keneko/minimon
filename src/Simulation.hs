@@ -7,8 +7,9 @@ import MinimonTypes (MiniType(..), types)
 import Data.Map.Strict (Map, fromList, adjust, unionWith, unionWithKey)
 import MiniMatchUpdate (updateNoAnimate)
 import Minimon (Minimon(..))
-import Control.Monad (forM, foldM)
-import Data.Vector (Vector(..))
+import Control.Monad (forM)
+import Data.Vector (Vector)
+import Data.Vector.Fusion.Bundle.Monadic (replicateM, foldM)
 import qualified Data.Vector as V
 
 eitherDied :: MiniMatch -> Bool
@@ -61,6 +62,5 @@ mkTournamentAndGetResults = do
 mkLotsOfTournaments :: Int -> IO (Map MiniType Int)
 mkLotsOfTournaments x = do
   first <- mkTournamentAndGetResults
-  foldM (\acc _ ->
-            mkTournamentAndGetResults >>= \res ->
-            pure (unionWith (+) res acc)) first (V.replicate x 0)
+  foldM (\acc i ->
+            pure (unionWith (+) i acc)) first (replicateM x mkTournamentAndGetResults)
