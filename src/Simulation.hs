@@ -31,13 +31,14 @@ decideWinner m =
        then getWinner res
        else decideWinner res
 
+{-
 decideWinnerDebugged :: MiniMatch -> IO MiniType
 decideWinnerDebugged m = do
   let res = updateNoAnimate m
       in do
     print res
     if endPhase res then return (getWinner res) else decideWinnerDebugged res
-
+-}
 cartProdNoDup :: Eq a => Vector a -> Vector (a, a)
 cartProdNoDup x =
   V.filter (uncurry (/=)) $ (,) <$> x <*> x

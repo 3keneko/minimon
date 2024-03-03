@@ -1,6 +1,6 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module MiniMatchUpdate where
+module MiniMatchUpdate (updateModel, updateNoAnimate) where
 
 import Graphics.Gloss.Data.ViewPort (ViewPort)
 import System.Random (uniformR, StdGen)

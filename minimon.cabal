@@ -29,6 +29,7 @@ library
       Display
       HappyHour
       Lib
+      Markov
       MiniMatch
       MiniMatchShow
       MiniMatchUpdate
@@ -51,6 +52,9 @@ library
     , containers
     , gloss
     , gloss-juicy
+    , graphite
+    , hashable
+    , hmatrix
     , random
     , vector
   default-language: Haskell2010
@@ -73,6 +77,9 @@ executable minimon-exe
     , containers
     , gloss
     , gloss-juicy
+    , graphite
+    , hashable
+    , hmatrix
     , minimon
     , random
     , vector
@@ -97,6 +104,9 @@ test-suite minimon-test
     , containers
     , gloss
     , gloss-juicy
+    , graphite
+    , hashable
+    , hmatrix
     , minimon
     , random
     , vector

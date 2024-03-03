@@ -144,6 +144,13 @@ packages:
       size: 934
   original:
     hackage: Chart-diagrams-1.9.5.1
+- completed:
+    hackage: graphite-0.10.0.1@sha256:3251cac197073670e77cf631e878b370d769b29e2324001105ff0840181fdf66,2510
+    pantry-tree:
+      sha256: 8a2b8d6f6a4efa6e22689a5de15fc5a40ffb4f432c170551bdfd83348edcc6d8
+      size: 1345
+  original:
+    hackage: graphite-0.10.0.1
 snapshots:
 - completed:
     sha256: 56ef9e03804cb4827866e762dc9752eeb392adda8f4811690da110dd9a165b9e

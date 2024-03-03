@@ -2,7 +2,7 @@
 module Display (displayRectangle, displayText, displayMinimon, WhichMinimon(..), displayDialogue, scaleAndTrans, minimonImg) where
 
 import Graphics.Gloss
-    ( Picture, Color, translate, color, rectangleSolid, text, scale, pictures, yellow, green, red, white )
+    ( Picture, Color, translate, color, rectangleSolid, text, scale, yellow, green, red, white )
 
 import MinimonTypes (MiniType(..))
 import Minimon ( Minimon(..) )

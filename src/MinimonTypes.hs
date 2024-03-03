@@ -1,10 +1,14 @@
+{-# LANGUAGE DerivingStrategies, DeriveAnyClass, DeriveGeneric, GeneralizedNewtypeDeriving #-}
 module MinimonTypes (
   MiniType(..),
-  Effectivness,
+  Effectivness(..),
   effectiveness,
   effCoeff,
   types
 ) where
+
+import Data.Hashable (Hashable)
+import GHC.Generics (Generic)
 
 data MiniType = Normal
               | Fire
@@ -25,6 +29,8 @@ data MiniType = Normal
               | Steel
               | Fairy
               deriving (Eq, Show, Ord, Enum)
+              deriving stock (Generic)
+              deriving anyclass (Hashable)
 
 data Effectivness = Effective | NoEffect | Ineffective | Immune
   deriving Eq

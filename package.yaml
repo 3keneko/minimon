@@ -30,6 +30,9 @@ dependencies:
 - Chart
 - Chart-cairo
 - Chart-diagrams
+- graphite
+- hashable
+- hmatrix
 
 ghc-options:
 - -Wall

@@ -4,12 +4,12 @@ import MinimonTypes (MiniType(..))
 import Minimon (Minimon(..), Attack(..))
 
 
-frenchDico :: MiniType -> String
-frenchDico Fire = "feu"
-frenchDico Grass = "plante"
-frenchDico Ice = "glace"
-frenchDico Steel = "acier"
-frenchDico Normal = "normal"
+-- frenchDico :: MiniType -> String
+-- frenchDico Fire = "feu"
+-- frenchDico Grass = "plante"
+-- frenchDico Ice = "glace"
+-- frenchDico Steel = "acier"
+-- frenchDico Normal = "normal"
 
 nameIt :: MiniType -> String
 nameIt Fire = "Drakof"
@@ -17,6 +17,7 @@ nameIt Grass = "Bulbiz"
 nameIt Steel = "Steelix"
 nameIt Ice = "Icecone"
 nameIt Normal = "Josh"
+nameIt _ = undefined
 
 createGenericHelp :: MiniType -> String -> String -> String -> String -> Minimon
 createGenericHelp typ att1 att2 att3 theName = Minimon { hp=400, minitype=typ,
