@@ -35,7 +35,7 @@ modelTable x y = case effectiveness x y of
   _ -> undefined
 distributeMatches :: MiniType -> ([(MiniType, Int)], Int)
 distributeMatches mt = (list, victories)
-  where list = map (\x -> (x,  10 - modelTable mt x)) types
+  where list = map (\x -> (x,  modelTable mt x)) types
         victories = foldr (\(_, x) acc -> acc + 10 - x) 0 list
 
 makeFirstGraph :: DGraph String Int
