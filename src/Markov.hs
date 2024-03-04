@@ -31,7 +31,8 @@ modelTable x (flip effectiveness x -> Immune) = 0
 modelTable x y = case effectiveness x y of
   Effective -> if effectiveness y x == Ineffective then 9 else 8
   Ineffective -> if effectiveness y x == Effective then 1 else 2
-  NoEffect -> if effectiveness y x == Effective then 2 else if effectiveness y x == Ineffective then 8 else 5
+  NoEffect -> if effectiveness y x == Effective then 2 else
+    if effectiveness y x == Ineffective then 8 else 5
   _ -> undefined
 
 distributeMatchesOverTypes :: [MiniType] -> MiniType -> ([(MiniType, Int)], Int)
