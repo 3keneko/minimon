@@ -33,14 +33,26 @@ modelTable x y = case effectiveness x y of
   Ineffective -> if effectiveness y x == Effective then 1 else 2
   NoEffect -> if effectiveness y x == Effective then 2 else 8
   _ -> undefined
-distributeMatches :: MiniType -> ([(MiniType, Int)], Int)
-distributeMatches mt = (list, victories)
-  where list = map (\x -> (x,  modelTable mt x)) types
+
+distributeMatchesOverTypes :: [MiniType] -> MiniType -> ([(MiniType, Int)], Int)
+distributeMatchesOverTypes typs mt = (list, victories)
+  where list = map (\x -> (x,  modelTable mt x)) typs
         victories = foldr (\(_, x) acc -> acc + 10 - x) 0 list
+
+distributeMatches :: MiniType -> ([(MiniType, Int)], Int)
+distributeMatches = distributeMatchesOverTypes types
 
 makeFirstGraph :: DGraph String Int
 makeFirstGraph = insertArcs arcz empty
-  where arcz = types >>= \x -> let (a, b) = distributeMatches x in Arc (show x) (show x) b : map (\(s,t) -> Arc (show x) (show s) t) a
+  where arcz = types >>= \x -> let (a, b) = distributeMatches x in
+          Arc (show x) (show x) b : map (\(s,t) -> Arc (show x) (show s) t) a
 
 makeGraphWeighted :: DGraph String Double
 makeGraphWeighted = fmap ((/180) . fromIntegral) makeFirstGraph
+
+makeClearGraph :: DGraph String Int
+makeClearGraph = insertArcs arcz empty
+  where
+    clearTypes = take 5 types
+    arcz = clearTypes >>= \x -> let (a, b) = distributeMatchesOverTypes clearTypes x in
+          Arc (show x) (show x) b : map (\(s,t) -> Arc (show x) (show s) t) a
