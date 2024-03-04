@@ -1,7 +1,5 @@
 digraph pokes {
-node [nodesep=0.01]
-nodesep=0.01;
-ranksep=0.01;
+beautify=true
 Flying -> Flying [label="60"];
 Flying -> Grass [label="9"];
 Flying -> Rock [label="1"];
