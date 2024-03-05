@@ -28,7 +28,7 @@ data MiniType = Normal
               | Dark
               | Steel
               | Fairy
-              deriving (Eq, Show, Ord, Enum)
+              deriving (Eq, Show, Ord, Enum, Read)
               deriving stock (Generic)
               deriving anyclass (Hashable)
 
@@ -42,7 +42,7 @@ instance Show Effectivness where
   show Immune = "Cela n'a aucun effet..."
 
 types :: [MiniType]
-types = [(Fire)..(Fairy)]
+types = [Normal ..(Fairy)]
 
 effectiveness :: MiniType -> MiniType -> Effectivness
 effectiveness Fire Grass = Effective
