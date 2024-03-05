@@ -44,7 +44,7 @@ cartProdNoDup x =
   V.filter (uncurry (/=)) $ (,) <$> x <*> x
 
 candidates :: Vector (MiniType, MiniType)
-candidates = cartProdNoDup [Fire ..Fairy]
+candidates = cartProdNoDup [Normal .. Fairy]
 
 getTournamentStats :: Vector MiniMatch -> Map MiniType Int
 getTournamentStats matches =

@@ -35,6 +35,7 @@ library
       MiniMatchUpdate
       Minimon
       MinimonTypes
+      MiniTypes
       Simulation
   other-modules:
       Paths_minimon

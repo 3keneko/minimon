@@ -5,11 +5,14 @@ import Data.Graph.DGraph (DGraph(..), insertArcs, toArcsList)
 import Data.Graph.Types (Arc(..), empty, IsEdge (fromTriple, toTriple))
 import MinimonTypes (MiniType(..), Effectivness(..), types, effectiveness)
 import Simulation (cartProdNoDup)
-import Numeric.LinearAlgebra (Matrix(..), (><), diag, eig, inv, dispcf, cmap, disp)
+import Numeric.LinearAlgebra (toList, Matrix(..), (><), diag, eig, inv, dispcf, cmap, disp, vector, (#>))
+
 import Data.Function (on)
 import Data.List (sortBy)
 import Data.Complex (Complex, realPart)
 import Graphics.Rendering.Chart (identity)
+
+import Control.Monad (forM_)
 
 -- Number of types = 18
 
@@ -100,3 +103,13 @@ multALot n = cmap realPart res
 multALotPrint :: Int -> IO ()
 multALotPrint n =
   disp 18 $ multALot n
+
+markovPrediction :: Int -> IO ()
+markovPrediction n =
+  let res = multALot n  #> vector (replicate 18 1)
+      o = zip [0..] (Numeric.LinearAlgebra.toList res)
+      v = reverse $ sortBy (compare `on` snd) o
+  in do
+    putStrLn "Les meilleurs types pokémeons rangés dans l'ordre sont"
+    forM_ v $ \(a, b) ->
+      putStrLn $ show (intToType a) ++ ": " ++ show b

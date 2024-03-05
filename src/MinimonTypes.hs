@@ -46,8 +46,8 @@ types = [Normal ..(Fairy)]
 
 effectiveness :: MiniType -> MiniType -> Effectivness
 effectiveness Fire Grass = Effective
-effectiveness Fire Water = Effective
-effectiveness Fire Rock = Effective
+effectiveness Fire Water = Ineffective
+effectiveness Fire Rock = Ineffective
 effectiveness Fire Ice = Effective
 effectiveness Fire Bug = Effective
 effectiveness Fire Steel = Ineffective
@@ -56,7 +56,7 @@ effectiveness Fire Dragon = Ineffective
 effectiveness Water Fire = Effective
 effectiveness Water Ground = Effective
 effectiveness Water Rock = Effective
-effectiveness Water Electric = Ineffective
+-- effectiveness Water Electric = Ineffective
 effectiveness Water Grass = Ineffective
 effectiveness Water Dragon = Ineffective
 
@@ -66,20 +66,21 @@ effectiveness Electric Steel = Effective
 effectiveness Electric Grass = Ineffective
 effectiveness Electric Electric = Ineffective
 effectiveness Electric Dragon = Ineffective
+effectiveness Electric Ground = Immune
 
 effectiveness Grass Water = Ineffective
-effectiveness Grass Ground = Ineffective
+effectiveness Grass Ground = Effective
 effectiveness Grass Flying = Ineffective
 effectiveness Grass Bug = Ineffective
 effectiveness Grass Fire = Ineffective
 effectiveness Grass Grass = Ineffective
 effectiveness Grass Poison = Effective
 effectiveness Grass Rock = Effective
-effectiveness Grass Electric = Effective
-effectiveness Grass Steel = Effective
+-- effectiveness Grass Electric = Effective
+effectiveness Grass Steel = Ineffective
 effectiveness Grass Dragon = Ineffective
 
-effectiveness Ice Grass = Ineffective
+effectiveness Ice Grass = Effective
 effectiveness Ice Fire = Ineffective
 effectiveness Ice Water = Ineffective
 effectiveness Ice Ice = Ineffective
@@ -100,19 +101,20 @@ effectiveness Fighting Poison = Ineffective
 effectiveness Fighting Bug = Ineffective
 effectiveness Fighting Ghost = Ineffective
 
-effectiveness Poison Grass = Ineffective
-effectiveness Poison Fairy = Ineffective
+effectiveness Poison Grass = Effective
+effectiveness Poison Fairy = Effective
 effectiveness Poison Poison = Ineffective
-effectiveness Poison Ground = Effective
-effectiveness Poison Rock = Effective
-effectiveness Poison Ghost = Effective
-effectiveness Poison Steel = Ineffective
+effectiveness Poison Ground = Ineffective
+effectiveness Poison Rock = Ineffective
+effectiveness Poison Ghost = Ineffective
+effectiveness Poison Steel = Immune
 
 effectiveness Ground Fire = Effective
 effectiveness Ground Electric = Effective
 effectiveness Ground Poison = Effective
 effectiveness Ground Rock = Ineffective
 effectiveness Ground Steel = Ineffective
+effectiveness Ground Flying = Immune
 
 effectiveness Flying Grass = Effective
 effectiveness Flying Fighting = Effective
@@ -120,7 +122,7 @@ effectiveness Flying Bug = Effective
 effectiveness Flying Ground = Ineffective
 effectiveness Flying Electric = Ineffective
 effectiveness Flying Rock = Ineffective
-effectiveness Flying Steel = Effective
+effectiveness Flying Steel = Ineffective
 
 effectiveness Psychic Fighting = Effective
 effectiveness Psychic Poison = Effective
@@ -152,7 +154,7 @@ effectiveness Ghost Normal = Ineffective
 
 effectiveness Dragon Dragon = Effective
 effectiveness Dragon Steel = Ineffective
-effectiveness Dragon Fairy = Ineffective
+effectiveness Dragon Fairy = Immune
 
 effectiveness Dark Psychic = Effective
 effectiveness Dark Ghost = Effective
