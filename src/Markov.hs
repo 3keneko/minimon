@@ -33,7 +33,7 @@ pour chacun des autres types, au final, c'est comme si on aura fait tous les mat
 -}
 
 modelTable :: MiniType -> MiniType -> Int
-modelTable x ((==) x -> True) = 0 -- Le 0 ici est arbitraire
+modelTable x ((==) x -> True) = 10 -- Le 0 ici est arbitraire
 modelTable x (effectiveness x -> Immune) = 10
 modelTable x (flip effectiveness x -> Immune) = 0
 modelTable x y = case effectiveness x y of
@@ -42,6 +42,18 @@ modelTable x y = case effectiveness x y of
   NoEffect -> if effectiveness y x == Effective then 8 else
     if effectiveness y x == Ineffective then 2 else 5
   _ -> undefined
+
+-- modelTable :: MiniType -> MiniType -> Int
+-- modelTable x ((==) x -> True) = 0 -- Le 0 ici est arbitraire
+-- modelTable x (effectiveness x -> Immune) = 10
+-- modelTable x (flip effectiveness x -> Immune) = 0
+-- modelTable x y = case effectiveness x y of
+--   Effective -> if effectiveness y x == Ineffective then 0 else 0
+--   Ineffective -> if effectiveness y x == Effective then 10 else 10
+--   NoEffect -> if effectiveness y x == Effective then 10 else
+--     if effectiveness y x == Ineffective then 0 else 5
+--   _ -> undefined
+
 
 distributeMatchesOverTypes :: [MiniType] -> MiniType -> ([(MiniType, Int)], Int)
 distributeMatchesOverTypes typs mt = (list, victories)
@@ -57,7 +69,7 @@ makeFirstGraph = insertArcs arcz empty
           Arc (show x) (show x) b : map (\(s,t) -> Arc (show x) (show s) t) a
 
 makeGraphWeighted :: DGraph String Double
-makeGraphWeighted = fmap ((/180) . fromIntegral) makeFirstGraph
+makeGraphWeighted = fmap ((/170) . fromIntegral) makeFirstGraph
 
 typeToInt :: MiniType -> Int
 typeToInt Normal = 0
